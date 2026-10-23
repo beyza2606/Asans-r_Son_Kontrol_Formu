@@ -4,257 +4,174 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Asansör Son Kontrol Formu</title>
+<title>EYTA ASANSÖR - Asansör Son Kontrol Formu</title>
+
 <style>
-:root { --blue:#173b63; --line:#d6dee8; }
-* { box-sizing:border-box; }
+:root {
+  --blue: #173b63;
+  --line: #d6dee8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin:0; background:#eef2f7; color:#172334;
-  font:14px Arial,sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #eef2f7;
+  color: #172334;
+  font: 14px Arial, sans-serif;
 }
+
 main {
-  max-width:1000px; margin:24px auto; padding:24px;
-  background:white; border-radius:12px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  background: white;
+  border-radius: 12px;
 }
-header { text-align:center; border-bottom:2px solid var(--blue); }
-h1 { color:var(--blue); font-size:25px; }
-h2 {
-  background:#edf3f9; color:var(--blue);
-  padding:10px; font-size:16px; margin-top:24px;
+
+header {
+  text-align: center;
+  border-bottom: 2px solid var(--blue);
+  padding-bottom: 14px;
 }
+
+header h1 {
+  color: var(--blue);
+  font-size: 28px;
+  margin: 8px 0;
+}
+
+header h2 {
+  color: #26384c;
+  font-size: 19px;
+  margin: 8px 0;
+}
+
+.section-title {
+  background: #edf3f9;
+  color: var(--blue);
+  padding: 10px;
+  font-size: 16px;
+  margin-top: 24px;
+}
+
 .grid {
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
-label { display:block; font-weight:bold; margin-bottom:5px; }
-input,select,textarea {
-  width:100%; min-width:0; padding:10px;
-  border:1px solid #bcc9d8; border-radius:5px;
-  font:inherit; background:white;
+
+.field {
+  min-width: 0;
 }
-textarea { min-height:65px; resize:vertical; }
-.field { min-width:0; }
-table { width:100%; border-collapse:collapse; margin:10px 0; }
-th,td { border:1px solid var(--line); padding:8px; text-align:left; }
-th { background:#edf3f9; }
-table input,table select { padding:7px; }
-.actions { display:flex; flex-wrap:wrap; gap:10px; margin:20px 0; }
-button {
-  border:0; border-radius:6px; padding:12px 16px;
-  background:var(--blue); color:white; cursor:pointer;
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
-button.secondary { background:#e7edf4; color:#173b63; }
-.small { font-size:12px; color:#536276; }
-.signature { display:grid; grid-template-columns:1fr 1fr; gap:30px; margin-top:35px; }
-.sign { border-top:1px solid #555; padding-top:8px; min-height:60px; }
-@media(max-width:600px) {
-  main { margin:0; padding:14px; border-radius:0; }
-  .grid { grid-template-columns:1fr; }
-  h1 { font-size:21px; }
-  table { font-size:12px; }
-  th,td { padding:5px; }
+
+input, select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #bcc9d8;
+  border-radius: 5px;
+  font: inherit;
+  background: white;
 }
-@media print {
-  @page { size:A4; margin:12mm; }
-  body { background:white; font-size:10pt; }
-  main { max-width:none; margin:0; padding:0; }
-  .actions,.no-print { display:none !important; }
-  input,select,textarea {
-    border:0; border-bottom:1px solid #bbb;
-    border-radius:0; padding:4px 2px;
-    appearance:none; background:white;
-    color:black; font-size:9pt;
+
+@media (max-width: 600px) {
+  body {
+    padding: 0;
   }
-  textarea { min-height:35px; }
-  h2 { break-after:avoid; }
-  tr,.signature,.field { break-inside:avoid; }
-  table { font-size:9pt; }
+
+  main {
+    padding: 14px;
+    border-radius: 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  header h1 {
+    font-size: 23px;
+  }
 }
 </style>
 </head>
+
 <body>
 <main>
+
 <header>
-  <h1>ASANSÖR SON KONTROL FORMU</h1>
-  <p>Proje bilgileri · Teknik ölçüler · Son kontrol</p>
+  <h1>EYTA ASANSÖR</h1>
+  <h2>ASANSÖR SON KONTROL FORMU</h2>
 </header>
 
-<form id="form">
-<h2>1. İNŞAAT VE ŞANTİYE BİLGİLERİ</h2>
-<div class="grid">
-  <div class="field"><label>İnşaat firması</label><input name="firma"></div>
-  <div class="field"><label>Şantiye adresi</label><input name="adres"></div>
-  <div class="field"><label>Montör ismi</label><input name="montor"></div>
-  <div class="field"><label>Yardımcı montör</label><input name="yardimci"></div>
-  <div class="field"><label>Başlangıç tarihi</label><input name="baslangic" type="date"></div>
-  <div class="field"><label>Bitiş tarihi</label><input name="bitis" type="date"></div>
-  <div class="field"><label>Uygulanan standart</label>
-    <input name="standart" placeholder="Örn. EN 81-20">
+<form>
+
+  <div class="section-title">1. ASANSÖR SİSTEMİ</div>
+
+  <div class="grid">
+    <div class="field">
+      <label>Asansör tahrik tipi</label>
+      <select name="tahrik" required>
+        <option value="">Seçiniz</option>
+        <option value="Elektrikli">Elektrikli</option>
+        <option value="Hidrolik">Hidrolik</option>
+      </select>
+    </div>
   </div>
-  <div class="field"><label>Proje / iş numarası</label><input name="proje"></div>
-</div>
 
-<h2>2. ASANSÖR TEKNİK BİLGİLERİ</h2>
-<div class="grid">
-  <div class="field"><label>Asansör numarası</label><input name="asansorNo"></div>
-  <div class="field"><label>Asansör tipi</label>
-    <select name="tip">
-      <option value="">Seçiniz</option>
-      <option>Yolcu</option><option>Yük</option>
-      <option>Sedye</option><option>Araç</option><option>Diğer</option>
-    </select>
+  <div class="section-title">2. ŞANTİYE VE PROJE BİLGİLERİ</div>
+
+  <div class="grid">
+
+    <div class="field">
+      <label>Şantiye adresi</label>
+      <input type="text" name="adres">
+    </div>
+
+    <div class="field">
+      <label>Asansör seri numarası</label>
+      <input type="text" name="asansorNo">
+    </div>
+
+    <div class="field">
+      <label>Montör ismi</label>
+      <input type="text" name="montor">
+    </div>
+
+    <div class="field">
+      <label>Uygulanan standart</label>
+      <input type="text" name="standart"
+             placeholder="Örn. EN 81-20">
+    </div>
+
+    <div class="field">
+      <label>Yardımcı montör</label>
+      <input type="text" name="yardimci">
+    </div>
+
+    <div class="field">
+      <label>Bitiş tarihi</label>
+      <input type="date" name="bitis">
+    </div>
+
+    <div class="field">
+      <label>Başlangıç tarihi</label>
+      <input type="date" name="baslangic">
+    </div>
+
   </div>
-  <div class="field"><label>Tahrik sistemi</label>
-    <select name="tahrik">
-      <option value="">Seçiniz</option>
-      <option>Elektrikli</option><option>Hidrolik</option>
-    </select>
-  </div>
-  <div class="field"><label>Kapasite (kg)</label><input name="kapasite" type="number"></div>
-  <div class="field"><label>Kişi kapasitesi</label><input name="kisi" type="number"></div>
-  <div class="field"><label>Anma hızı (m/s)</label><input name="hiz" type="number" step="any"></div>
-  <div class="field"><label>Durak sayısı</label><input name="durak" type="number"></div>
-  <div class="field"><label>Makine / motor bilgisi</label><input name="motor"></div>
-  <div class="field"><label>Motor gücü (kW)</label><input name="guc" type="number" step="any"></div>
-  <div class="field"><label>Kumanda panosu</label><input name="pano"></div>
-</div>
 
-<h2>3. KABİN, KUYU VE KAPI ÖLÇÜLERİ (mm)</h2>
-<div class="grid">
-  <div class="field"><label>Kabin genişliği</label><input name="kabinGenislik" type="number"></div>
-  <div class="field"><label>Kabin derinliği</label><input name="kabinDerinlik" type="number"></div>
-  <div class="field"><label>Kabin yüksekliği</label><input name="kabinYukseklik" type="number"></div>
-  <div class="field"><label>Kuyu genişliği</label><input name="kuyuGenislik" type="number"></div>
-  <div class="field"><label>Kuyu derinliği / uzunluğu</label><input name="kuyuDerinlik" type="number"></div>
-  <div class="field"><label>Kuyu dibi derinliği</label><input name="kuyuDibi" type="number"></div>
-  <div class="field"><label>Son kat üst boşluğu</label><input name="ustBosluk" type="number"></div>
-  <div class="field"><label>Kapı net genişliği</label><input name="kapiGenislik" type="number"></div>
-  <div class="field"><label>Kapı net yüksekliği</label><input name="kapiYukseklik" type="number"></div>
-</div>
-
-<h2>4. KAT VE DURAK ÖLÇÜLERİ</h2>
-<p class="small">Kat kotlarını ve katlar arası yükseklikleri mm cinsinden girin.
-Ölçüm başlangıç noktasını açıklama alanında belirtebilirsiniz.</p>
-<table>
-<thead><tr>
-  <th>Kat adı</th><th>Kat kotu (mm)</th>
-  <th>Kat yüksekliği (mm)</th><th>Kapı ölçüsü (mm)</th>
-  <th class="no-print">İşlem</th>
-</tr></thead>
-<tbody id="floors"></tbody>
-</table>
-<div class="actions no-print">
-  <button type="button" class="secondary" onclick="addFloor()">+ Kat ekle</button>
-</div>
-
-<h2>5. SON KONTROL MADDELERİ</h2>
-<table>
-<thead><tr><th>Kontrol maddesi</th><th>Sonuç</th><th>Açıklama</th></tr></thead>
-<tbody id="checks"></tbody>
-</table>
-<p class="small">Bu maddeler başlangıç taslağıdır. Resmî kontrol listenizle
-karşılaştırılarak eksiksiz ve doğru şekilde düzenlenmelidir.</p>
-
-<h2>6. GENEL AÇIKLAMALAR</h2>
-<textarea name="aciklama" placeholder="Tespitler, eksikler ve ilave açıklamalar..."></textarea>
-
-<h2>7. SONUÇ VE İMZALAR</h2>
-<div class="grid">
-  <div class="field"><label>Genel sonuç</label>
-    <select name="sonuc">
-      <option value="">Seçiniz</option>
-      <option>Kontrol tamamlandı</option>
-      <option>Eksikler mevcut</option>
-      <option>Tekrar kontrol gerekli</option>
-    </select>
-  </div>
-  <div class="field"><label>Kontrol tarihi</label><input name="kontrolTarihi" type="date"></div>
-</div>
-<div class="signature">
-  <div class="sign">Montör imzası</div>
-  <div class="sign">Kontrol eden / yetkili imzası</div>
-</div>
-
-<div class="actions no-print">
-  <button type="button" onclick="window.print()">PDF oluştur / yazdır</button>
-  <button type="reset" class="secondary" onclick="setTimeout(init,0)">Formu temizle</button>
-</div>
-<p class="small">PDF için yazdırma penceresinde “PDF olarak kaydet” seçeneğini kullanın.</p>
 </form>
+
 </main>
-
-<script>
-const floorBody = document.getElementById("floors");
-const checkBody = document.getElementById("checks");
-
-function addFloor(name="", kot="", yukseklik="", kapi="") {
-  const tr = document.createElement("tr");
-  [name,kot,yukseklik,kapi].forEach((value,i)=>{
-    const td = document.createElement("td");
-    const input = document.createElement("input");
-    input.value = value;
-    input.setAttribute("aria-label", ["Kat adı","Kat kotu","Kat yüksekliği","Kapı ölçüsü"][i]);
-    if(i>0) input.type="number";
-    td.appendChild(input);
-    tr.appendChild(td);
-  });
-  const td = document.createElement("td");
-  td.className="no-print";
-  const btn = document.createElement("button");
-  btn.type="button"; btn.textContent="Sil";
-  btn.className="secondary";
-  btn.onclick=()=>tr.remove();
-  td.appendChild(btn); tr.appendChild(td);
-  floorBody.appendChild(tr);
-}
-
-const items = [
- "Kabin ve kat kapıları",
- "Kabin içi ve aydınlatma",
- "Kat göstergeleri ve butonlar",
- "Kumanda ve çalışma fonksiyonları",
- "Emniyet devreleri",
- "Kapı kilitleri ve güvenlik tertibatı",
- "Kata seviyeleme",
- "Fren ve tahrik sistemi",
- "Limit şalterleri ve son durak tertibatı",
- "Alarm ve haberleşme sistemi",
- "Kuyu dibi ve kuyu üstü kontrolleri",
- "Diğer kontroller"
-];
-
-function init() {
-  floorBody.innerHTML="";
-  checkBody.innerHTML="";
-  addFloor("Zemin");
-  addFloor("1. Kat");
-  items.forEach(item=>{
-    const tr=document.createElement("tr");
-    const name=document.createElement("td");
-    name.textContent=item;
-    tr.appendChild(name);
-
-    const result=document.createElement("td");
-    const select=document.createElement("select");
-    ["Seçiniz","Uygun","Uygun değil","Uygulanamaz"].forEach(label=>{
-      const opt=document.createElement("option");
-      opt.textContent=label;
-      opt.value=label==="Seçiniz" ? "" : label;
-      select.appendChild(opt);
-    });
-    result.appendChild(select);
-    tr.appendChild(result);
-
-    const note=document.createElement("td");
-    const input=document.createElement("input");
-    input.setAttribute("aria-label",item+" açıklaması");
-    note.appendChild(input);
-    tr.appendChild(note);
-    checkBody.appendChild(tr);
-  });
-}
-init();
-</script>
 </body>
 </html>
-
