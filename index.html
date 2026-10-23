@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EYTA ASANSÖR - Asansör Son Kontrol Formu</title>
+<title>EYTA ASANSÖR - Son Kontrol Formu</title>
 
 <style>
 :root {
@@ -12,9 +12,7 @@
   --line: #d6dee8;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -26,7 +24,7 @@ body {
 
 main {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: auto;
   padding: 24px;
   background: white;
   border-radius: 12px;
@@ -55,7 +53,7 @@ header h2 {
   color: var(--blue);
   padding: 10px;
   font-size: 16px;
-  margin-top: 24px;
+  margin: 24px 0 14px;
 }
 
 .grid {
@@ -64,9 +62,7 @@ header h2 {
   gap: 14px;
 }
 
-.field {
-  min-width: 0;
-}
+.field { min-width: 0; }
 
 label {
   display: block;
@@ -84,22 +80,95 @@ input, select {
   background: white;
 }
 
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+button {
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--blue);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #e7edf4;
+  color: var(--blue);
+}
+
+#status {
+  margin-top: 14px;
+  color: #315b43;
+  overflow-wrap: anywhere;
+}
+
+.small {
+  color: #536276;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 @media (max-width: 600px) {
-  body {
-    padding: 0;
-  }
+  body { padding: 0; }
 
   main {
     padding: 14px;
     border-radius: 0;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
+  .grid { grid-template-columns: 1fr; }
+
+  header h1 { font-size: 23px; }
+
+  .actions button { flex: 1 1 100%; }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
   }
 
-  header h1 {
-    font-size: 23px;
+  body {
+    padding: 0;
+    background: white;
+    font-size: 10pt;
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .actions, #status, .small {
+    display: none !important;
+  }
+
+  .grid { gap: 12px; }
+
+  input, select {
+    color: black;
+    border: 0;
+    border-bottom: 1px solid #aaa;
+    border-radius: 0;
+    padding: 5px 2px;
+    appearance: none;
+    font-size: 10pt;
+  }
+
+  .section-title {
+    break-after: avoid;
+  }
+
+  .field {
+    break-inside: avoid;
   }
 }
 </style>
@@ -113,7 +182,7 @@ input, select {
   <h2>ASANSÖR SON KONTROL FORMU</h2>
 </header>
 
-<form>
+<form id="form">
 
   <div class="section-title">1. ASANSÖR SİSTEMİ</div>
 
@@ -134,28 +203,27 @@ input, select {
 
     <div class="field">
       <label>Şantiye adresi</label>
-      <input type="text" name="adres">
+      <input name="adres">
     </div>
 
     <div class="field">
       <label>Asansör seri numarası</label>
-      <input type="text" name="asansorNo">
+      <input name="asansorNo">
     </div>
 
     <div class="field">
       <label>Montör ismi</label>
-      <input type="text" name="montor">
+      <input name="montor">
     </div>
 
     <div class="field">
       <label>Uygulanan standart</label>
-      <input type="text" name="standart"
-             placeholder="Örn. EN 81-20">
+      <input name="standart" placeholder="Örn. EN 81-20">
     </div>
 
     <div class="field">
       <label>Yardımcı montör</label>
-      <input type="text" name="yardimci">
+      <input name="yardimci">
     </div>
 
     <div class="field">
@@ -170,8 +238,179 @@ input, select {
 
   </div>
 
-</form>
+  <div class="actions">
+    <button type="button" id="saveBtn">Bilgileri kaydet</button>
+    <button type="button" id="pdfBtn">PDF oluştur / yazdır</button>
+    <button type="button" id="exportBtn">Verileri dosyaya kaydet</button>
+    <button type="button" class="secondary" id="importBtn">
+      Kayıtlı dosyayı yükle
+    </button>
+    <input
+      type="file"
+      id="importFile"
+      accept=".json,application/json"
+      hidden
+    >
+    <button type="button" class="secondary" id="clearBtn">
+      Formu temizle
+    </button>
+  </div>
 
+  <p id="status" role="status" aria-live="polite"></p>
+
+  <p class="small">
+    Bilgileri kaydet seçeneği bu tarayıcıda kayıt tutar.
+    Başka cihaza aktarmak için “Verileri dosyaya kaydet”
+    seçeneğini kullanın. PDF için yazdırma penceresinde
+    “PDF olarak kaydet” seçeneğini seçin.
+  </p>
+
+</form>
 </main>
+
+<script>
+const form = document.getElementById("form");
+const statusText = document.getElementById("status");
+const storageKey = "eytaAsansorFormV1";
+
+function showStatus(message) {
+  statusText.textContent = message;
+}
+
+function getFormData() {
+  return Object.fromEntries(new FormData(form).entries());
+}
+
+function fillForm(data) {
+  for (const [name, value] of Object.entries(data)) {
+    const field = form.elements.namedItem(name);
+
+    if (field && typeof value === "string") {
+      field.value = value;
+    }
+  }
+}
+
+function saveLocal() {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(getFormData()));
+    showStatus("Bilgiler bu tarayıcıya kaydedildi.");
+    return true;
+  } catch (error) {
+    showStatus(
+      "Tarayıcıya kaydedilemedi. Verileri dosyaya kaydet seçeneğini kullanın."
+    );
+    return false;
+  }
+}
+
+// Form açıldığında aynı tarayıcıdaki kayıtları yükle.
+try {
+  const saved = localStorage.getItem(storageKey);
+
+  if (saved) {
+    fillForm(JSON.parse(saved));
+    showStatus("Önceki kayıt yüklendi.");
+  }
+} catch (error) {
+  showStatus("Önceki kayıt okunamadı.");
+}
+
+// Değişiklikleri otomatik kaydetmeyi dene.
+form.addEventListener("input", () => {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(getFormData()));
+  } catch (error) {
+    // Kullanıcı isterse ayrıca dosyaya kaydedebilir.
+  }
+});
+
+form.addEventListener("change", () => {
+  try {
+    localStorage.setItem(storageKey, JSON.stringify(getFormData()));
+  } catch (error) {
+    // Kullanıcı isterse ayrıca dosyaya kaydedebilir.
+  }
+});
+
+document.getElementById("saveBtn").addEventListener("click", saveLocal);
+
+// PDF oluşturma / yazdırma
+document.getElementById("pdfBtn").addEventListener("click", () => {
+  window.print();
+});
+
+// Form bilgilerini başka cihaza taşımak için JSON dosyası indir.
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const data = getFormData();
+  const blob = new Blob(
+    [JSON.stringify(data, null, 2)],
+    { type: "application/json;charset=utf-8" }
+  );
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "eyta-asansor-kayit.json";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+  showStatus("Veri dosyası indirildi. Diğer cihaza gönderebilirsiniz.");
+});
+
+// Başka cihazdan gelen JSON dosyasını yükle.
+document.getElementById("importBtn").addEventListener("click", () => {
+  document.getElementById("importFile").click();
+});
+
+document.getElementById("importFile").addEventListener("change", async (event) => {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  try {
+    const data = JSON.parse(await file.text());
+
+    if (
+      !data ||
+      typeof data !== "object" ||
+      Array.isArray(data) ||
+      Object.values(data).some(value => typeof value !== "string")
+    ) {
+      throw new Error("Geçersiz dosya");
+    }
+
+    fillForm(data);
+    saveLocal();
+    showStatus("Dosyadaki bilgiler forma yüklendi.");
+  } catch (error) {
+    showStatus("Dosya okunamadı. Lütfen geçerli EYTA JSON dosyası seçin.");
+  }
+
+  event.target.value = "";
+});
+
+// Temizlemeden önce onay iste.
+document.getElementById("clearBtn").addEventListener("click", () => {
+  if (!confirm("Formdaki tüm bilgileri temizlemek istiyor musunuz?")) {
+    return;
+  }
+
+  form.reset();
+
+  try {
+    localStorage.removeItem(storageKey);
+  } catch (error) {
+    // Form yine de temizlenir.
+  }
+
+  showStatus("Form temizlendi.");
+});
+</script>
+
 </body>
 </html>
