@@ -331,6 +331,29 @@ button.secondary {
         <label>İç kapı markası</label>
         <input name="icKapiMarka">
       </div>
+
+      <div class="field">
+        <label>Kabin kapısı markası</label>
+        <input name="kabinKapiMarka">
+      </div>
+
+      <div class="field">
+        <label>Kabin kapısı ölçüsü</label>
+        <input
+          name="kabinKapiOlcusu"
+          placeholder="Örn. 800 x 2000 mm">
+      </div>
+
+      <div class="field">
+        <label>Kabin kapısı tipi</label>
+        <select name="kabinKapiTipi">
+          <option value="">Seçiniz</option>
+          <option value="Teleskopik">Teleskopik</option>
+          <option value="Merkezi">Merkezi</option>
+          <option value="Manuel">Manuel</option>
+          <option value="Diğer">Diğer</option>
+        </select>
+      </div>
     </section>
 
     <section class="panel">
@@ -345,32 +368,6 @@ button.secondary {
 
   </div>
 
-  <div class="section-title">4. KABİN KAPISI</div>
-
-  <div class="grid">
-    <div class="field">
-      <label>Kabin kapısı markası</label>
-      <input name="kabinKapiMarka">
-    </div>
-
-    <div class="field">
-      <label>Kabin kapısı ölçüsü</label>
-      <input name="kabinKapiOlcusu"
-             placeholder="Örn. 800 x 2000 mm">
-    </div>
-
-    <div class="field">
-      <label>Kabin kapısı tipi</label>
-      <select name="kabinKapiTipi">
-        <option value="">Seçiniz</option>
-        <option value="Teleskopik">Teleskopik</option>
-        <option value="Merkezi">Merkezi</option>
-        <option value="Manuel">Manuel</option>
-        <option value="Diğer">Diğer</option>
-      </select>
-    </div>
-  </div>
-
   <div class="actions">
     <button type="button" id="saveBtn">Bilgileri kaydet</button>
     <button type="button" id="pdfBtn">PDF oluştur / yazdır</button>
@@ -378,8 +375,11 @@ button.secondary {
     <button type="button" class="secondary" id="importBtn">
       Kayıtlı dosyayı yükle
     </button>
-    <input type="file" id="importFile"
-           accept=".json,application/json" hidden>
+    <input
+      type="file"
+      id="importFile"
+      accept=".json,application/json"
+      hidden>
     <button type="button" class="secondary" id="clearBtn">
       Formu temizle
     </button>
@@ -518,13 +518,9 @@ function fillForm(data) {
     throw new Error("Kayıt alanları metin olmalıdır.");
   }
 
-  // Standart alanları temizle.
   form.reset();
-
-  // Kat listesini standart hâle getir.
   resetFloorRows();
 
-  // Önce standart ve diğer form alanlarını yükle.
   for (const [name, value] of Object.entries(data)) {
     if (/^kat_\d+$/.test(name)) continue;
 
@@ -535,7 +531,6 @@ function fillForm(data) {
     }
   }
 
-  // Standart katların değerlerini yükle.
   for (const floor of defaultFloors) {
     const input = form.elements.namedItem(floor.name);
 
@@ -544,7 +539,6 @@ function fillForm(data) {
     }
   }
 
-  // Dinamik katları numaraya göre sırala ve yükle.
   const extraFloors = Object.keys(data)
     .map(name => {
       const match = name.match(/^kat_(\d+)$/);
@@ -574,10 +568,8 @@ document.getElementById("addFloorBtn").addEventListener("click", () => {
   showStatus(number + ". Kat eklendi.");
 });
 
-// Sayfa açıldığında standart katları oluştur.
 resetFloorRows();
 
-// Önceki kaydı yükle.
 try {
   const saved = localStorage.getItem(storageKey);
 
@@ -589,7 +581,6 @@ try {
   showStatus("Önceki kayıt okunamadı.");
 }
 
-// Form değişikliklerini otomatik kaydet.
 form.addEventListener("input", () => saveLocal(false));
 form.addEventListener("change", () => saveLocal(false));
 
@@ -601,7 +592,6 @@ document.getElementById("pdfBtn").addEventListener("click", () => {
   window.print();
 });
 
-// JSON dosyasına aktar.
 document.getElementById("exportBtn").addEventListener("click", () => {
   try {
     const data = getFormData();
@@ -627,7 +617,6 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   }
 });
 
-// JSON dosyasından içe aktar.
 document.getElementById("importBtn").addEventListener("click", () => {
   importFile.click();
 });
@@ -653,7 +642,6 @@ importFile.addEventListener("change", async event => {
   event.target.value = "";
 });
 
-// Formu ve kayıtları temizle.
 document.getElementById("clearBtn").addEventListener("click", () => {
   if (!confirm("Formdaki tüm bilgileri temizlemek istiyor musunuz?")) {
     return;
@@ -665,7 +653,7 @@ document.getElementById("clearBtn").addEventListener("click", () => {
   try {
     localStorage.removeItem(storageKey);
   } catch (error) {
-    // Tarayıcı kaydı silinemese bile form temizlenir.
+    // Form, tarayıcı kaydı silinemese bile temizlenir.
   }
 
   showStatus("Form temizlendi.");
