@@ -114,6 +114,56 @@ button.secondary {
   line-height: 1.5;
 }
 
+.door-floor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.panel {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.panel-title {
+  color: var(--blue);
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.panel .field {
+  margin-bottom: 14px;
+}
+
+.floor-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+
+.floor-row .field {
+  margin-bottom: 0;
+}
+
+.remove-floor {
+  background: #f8e5e5;
+  color: #922b2b;
+  padding: 10px;
+}
+
+.add-floor {
+  width: 100%;
+  margin-top: 6px;
+}
+
 @media (max-width: 600px) {
   body { padding: 0; }
 
@@ -122,7 +172,10 @@ button.secondary {
     border-radius: 0;
   }
 
-  .grid { grid-template-columns: 1fr; }
+  .grid,
+  .door-floor-layout {
+    grid-template-columns: 1fr;
+  }
 
   header h1 { font-size: 23px; }
 
@@ -147,11 +200,22 @@ button.secondary {
     border-radius: 0;
   }
 
-  .actions, #status, .small {
+  .actions, #status, .small,
+  .remove-floor, .add-floor {
     display: none !important;
   }
 
   .grid { gap: 12px; }
+
+  .door-floor-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .panel {
+    padding: 10px;
+    break-inside: avoid;
+  }
 
   input, select {
     color: black;
@@ -200,7 +264,6 @@ button.secondary {
   <div class="section-title">2. ŞANTİYE VE PROJE BİLGİLERİ</div>
 
   <div class="grid">
-
     <div class="field">
       <label>Şantiye adresi</label>
       <input name="adres">
@@ -235,7 +298,77 @@ button.secondary {
       <label>Başlangıç tarihi</label>
       <input type="date" name="baslangic">
     </div>
+  </div>
 
+  <div class="section-title">3. KAPI VE KAT BİLGİLERİ</div>
+
+  <div class="door-floor-layout">
+
+    <section class="panel">
+      <div class="panel-title">Kapı Bilgileri</div>
+
+      <div class="field">
+        <label>Marka</label>
+        <input name="kapiMarka">
+      </div>
+
+      <div class="field">
+        <label>Toplama yönü</label>
+        <select name="toplamaYonu">
+          <option value="">Seçiniz</option>
+          <option value="Sol">Sol</option>
+          <option value="Sağ">Sağ</option>
+          <option value="Merkez">Merkez</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Kapı ölçüsü</label>
+        <input name="kapiOlcusu" placeholder="Örn. 800 x 2000 mm">
+      </div>
+
+      <div class="field">
+        <label>İç kapı markası</label>
+        <input name="icKapiMarka">
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">Kat Bilgileri</div>
+
+      <div id="floorList"></div>
+
+      <button type="button" class="add-floor" id="addFloorBtn">
+        + Kat Ekle
+      </button>
+    </section>
+
+  </div>
+
+  <div class="section-title">4. KABİN KAPISI</div>
+
+  <div class="grid">
+    <div class="field">
+      <label>Kabin kapısı markası</label>
+      <input name="kabinKapiMarka">
+    </div>
+
+    <div class="field">
+      <label>Kabin kapısı ölçüsü</label>
+      <input name="kabinKapiOlcusu"
+             placeholder="Örn. 800 x 2000 mm">
+    </div>
+
+    <div class="field">
+      <label>Kabin kapısı tipi</label>
+      <select name="kabinKapiTipi">
+        <option value="">Seçiniz</option>
+        <option value="Teleskopik">Teleskopik</option>
+        <option value="Merkezi">Merkezi</option>
+        <option value="Manuel">Manuel</option>
+        <option value="Diğer">Diğer</option>
+      </select>
+    </div>
   </div>
 
   <div class="actions">
@@ -245,12 +378,8 @@ button.secondary {
     <button type="button" class="secondary" id="importBtn">
       Kayıtlı dosyayı yükle
     </button>
-    <input
-      type="file"
-      id="importFile"
-      accept=".json,application/json"
-      hidden
-    >
+    <input type="file" id="importFile"
+           accept=".json,application/json" hidden>
     <button type="button" class="secondary" id="clearBtn">
       Formu temizle
     </button>
@@ -259,10 +388,10 @@ button.secondary {
   <p id="status" role="status" aria-live="polite"></p>
 
   <p class="small">
-    Bilgileri kaydet seçeneği bu tarayıcıda kayıt tutar.
-    Başka cihaza aktarmak için “Verileri dosyaya kaydet”
-    seçeneğini kullanın. PDF için yazdırma penceresinde
-    “PDF olarak kaydet” seçeneğini seçin.
+    Bilgiler bu tarayıcıda otomatik olarak kaydedilmeye çalışılır.
+    Farklı cihaza aktarmak için JSON dosyası indirin.
+    PDF oluşturmak için yazdırma ekranında "PDF olarak kaydet"
+    seçeneğini kullanın.
   </p>
 
 </form>
@@ -271,40 +400,184 @@ button.secondary {
 <script>
 const form = document.getElementById("form");
 const statusText = document.getElementById("status");
-const storageKey = "eytaAsansorFormV1";
+const storageKey = "eytaAsansorFormV2";
+const floorList = document.getElementById("floorList");
+const importFile = document.getElementById("importFile");
+
+const defaultFloors = [
+  { label: "Zemin", name: "kat_0" },
+  { label: "1. Kat", name: "kat_1" },
+  { label: "2. Kat", name: "kat_2" },
+  { label: "3. Kat", name: "kat_3" },
+  { label: "4. Kat", name: "kat_4" }
+];
 
 function showStatus(message) {
   statusText.textContent = message;
 }
 
 function getFormData() {
-  return Object.fromEntries(new FormData(form).entries());
-}
+  const data = {};
 
-function fillForm(data) {
-  for (const [name, value] of Object.entries(data)) {
-    const field = form.elements.namedItem(name);
-
-    if (field && typeof value === "string") {
-      field.value = value;
-    }
+  for (const [name, value] of new FormData(form).entries()) {
+    data[name] = value;
   }
+
+  return data;
 }
 
-function saveLocal() {
+function saveLocal(showMessage = true) {
   try {
     localStorage.setItem(storageKey, JSON.stringify(getFormData()));
-    showStatus("Bilgiler bu tarayıcıya kaydedildi.");
+
+    if (showMessage) {
+      showStatus("Bilgiler bu tarayıcıya kaydedildi.");
+    }
+
     return true;
   } catch (error) {
-    showStatus(
-      "Tarayıcıya kaydedilemedi. Verileri dosyaya kaydet seçeneğini kullanın."
-    );
+    if (showMessage) {
+      showStatus(
+        "Tarayıcıya kaydedilemedi. JSON dosyasına kaydedebilirsiniz."
+      );
+    }
+
     return false;
   }
 }
 
-// Form açıldığında aynı tarayıcıdaki kayıtları yükle.
+function createFloor(label, name, value = "", removable = true) {
+  const row = document.createElement("div");
+  row.className = "floor-row";
+
+  const field = document.createElement("div");
+  field.className = "field";
+
+  const floorLabel = document.createElement("label");
+  floorLabel.textContent = label;
+  floorLabel.htmlFor = "field_" + name;
+
+  const input = document.createElement("input");
+  input.id = "field_" + name;
+  input.name = name;
+  input.value = value;
+  input.placeholder = "Kat bilgisi";
+
+  field.append(floorLabel, input);
+  row.appendChild(field);
+
+  if (removable) {
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "remove-floor";
+    removeBtn.textContent = "Sil";
+    removeBtn.setAttribute("aria-label", label + " satırını sil");
+
+    removeBtn.addEventListener("click", () => {
+      row.remove();
+      saveLocal(false);
+      showStatus(label + " kaldırıldı.");
+    });
+
+    row.appendChild(removeBtn);
+  }
+
+  floorList.appendChild(row);
+}
+
+function resetFloorRows() {
+  floorList.replaceChildren();
+
+  for (const floor of defaultFloors) {
+    createFloor(floor.label, floor.name, "", false);
+  }
+}
+
+function getNextFloorNumber() {
+  let max = 4;
+
+  for (const input of floorList.querySelectorAll("input[name]")) {
+    const match = input.name.match(/^kat_(\d+)$/);
+
+    if (match) {
+      max = Math.max(max, Number(match[1]));
+    }
+  }
+
+  return max + 1;
+}
+
+function fillForm(data) {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    throw new Error("Geçersiz kayıt");
+  }
+
+  if (
+    Object.values(data).some(value => typeof value !== "string")
+  ) {
+    throw new Error("Kayıt alanları metin olmalıdır.");
+  }
+
+  // Standart alanları temizle.
+  form.reset();
+
+  // Kat listesini standart hâle getir.
+  resetFloorRows();
+
+  // Önce standart ve diğer form alanlarını yükle.
+  for (const [name, value] of Object.entries(data)) {
+    if (/^kat_\d+$/.test(name)) continue;
+
+    const field = form.elements.namedItem(name);
+
+    if (field && "value" in field) {
+      field.value = value;
+    }
+  }
+
+  // Standart katların değerlerini yükle.
+  for (const floor of defaultFloors) {
+    const input = form.elements.namedItem(floor.name);
+
+    if (input && typeof data[floor.name] === "string") {
+      input.value = data[floor.name];
+    }
+  }
+
+  // Dinamik katları numaraya göre sırala ve yükle.
+  const extraFloors = Object.keys(data)
+    .map(name => {
+      const match = name.match(/^kat_(\d+)$/);
+
+      return match
+        ? { name, number: Number(match[1]), value: data[name] }
+        : null;
+    })
+    .filter(item => item && item.number > 4)
+    .sort((a, b) => a.number - b.number);
+
+  for (const floor of extraFloors) {
+    createFloor(
+      floor.number + ". Kat",
+      floor.name,
+      floor.value,
+      true
+    );
+  }
+}
+
+document.getElementById("addFloorBtn").addEventListener("click", () => {
+  const number = getNextFloorNumber();
+
+  createFloor(number + ". Kat", "kat_" + number);
+  saveLocal(false);
+  showStatus(number + ". Kat eklendi.");
+});
+
+// Sayfa açıldığında standart katları oluştur.
+resetFloorRows();
+
+// Önceki kaydı yükle.
 try {
   const saved = localStorage.getItem(storageKey);
 
@@ -316,58 +589,50 @@ try {
   showStatus("Önceki kayıt okunamadı.");
 }
 
-// Değişiklikleri otomatik kaydetmeyi dene.
-form.addEventListener("input", () => {
-  try {
-    localStorage.setItem(storageKey, JSON.stringify(getFormData()));
-  } catch (error) {
-    // Kullanıcı isterse ayrıca dosyaya kaydedebilir.
-  }
+// Form değişikliklerini otomatik kaydet.
+form.addEventListener("input", () => saveLocal(false));
+form.addEventListener("change", () => saveLocal(false));
+
+document.getElementById("saveBtn").addEventListener("click", () => {
+  saveLocal(true);
 });
 
-form.addEventListener("change", () => {
-  try {
-    localStorage.setItem(storageKey, JSON.stringify(getFormData()));
-  } catch (error) {
-    // Kullanıcı isterse ayrıca dosyaya kaydedebilir.
-  }
-});
-
-document.getElementById("saveBtn").addEventListener("click", saveLocal);
-
-// PDF oluşturma / yazdırma
 document.getElementById("pdfBtn").addEventListener("click", () => {
   window.print();
 });
 
-// Form bilgilerini başka cihaza taşımak için JSON dosyası indir.
+// JSON dosyasına aktar.
 document.getElementById("exportBtn").addEventListener("click", () => {
-  const data = getFormData();
-  const blob = new Blob(
-    [JSON.stringify(data, null, 2)],
-    { type: "application/json;charset=utf-8" }
-  );
+  try {
+    const data = getFormData();
+    const blob = new Blob(
+      [JSON.stringify(data, null, 2)],
+      { type: "application/json;charset=utf-8" }
+    );
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
 
-  link.href = url;
-  link.download = "eyta-asansor-kayit.json";
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
+    link.href = url;
+    link.download = "eyta-asansor-kayit.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
 
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-  showStatus("Veri dosyası indirildi. Diğer cihaza gönderebilirsiniz.");
+    showStatus("JSON kayıt dosyası indirildi.");
+  } catch (error) {
+    showStatus("Dosya oluşturulamadı.");
+  }
 });
 
-// Başka cihazdan gelen JSON dosyasını yükle.
+// JSON dosyasından içe aktar.
 document.getElementById("importBtn").addEventListener("click", () => {
-  document.getElementById("importFile").click();
+  importFile.click();
 });
 
-document.getElementById("importFile").addEventListener("change", async (event) => {
+importFile.addEventListener("change", async event => {
   const file = event.target.files[0];
 
   if (!file) return;
@@ -375,37 +640,32 @@ document.getElementById("importFile").addEventListener("change", async (event) =
   try {
     const data = JSON.parse(await file.text());
 
-    if (
-      !data ||
-      typeof data !== "object" ||
-      Array.isArray(data) ||
-      Object.values(data).some(value => typeof value !== "string")
-    ) {
-      throw new Error("Geçersiz dosya");
-    }
-
     fillForm(data);
-    saveLocal();
+    saveLocal(false);
+
     showStatus("Dosyadaki bilgiler forma yüklendi.");
   } catch (error) {
-    showStatus("Dosya okunamadı. Lütfen geçerli EYTA JSON dosyası seçin.");
+    showStatus(
+      "Dosya okunamadı. Geçerli bir EYTA JSON dosyası seçin."
+    );
   }
 
   event.target.value = "";
 });
 
-// Temizlemeden önce onay iste.
+// Formu ve kayıtları temizle.
 document.getElementById("clearBtn").addEventListener("click", () => {
   if (!confirm("Formdaki tüm bilgileri temizlemek istiyor musunuz?")) {
     return;
   }
 
   form.reset();
+  resetFloorRows();
 
   try {
     localStorage.removeItem(storageKey);
   } catch (error) {
-    // Form yine de temizlenir.
+    // Tarayıcı kaydı silinemese bile form temizlenir.
   }
 
   showStatus("Form temizlendi.");
