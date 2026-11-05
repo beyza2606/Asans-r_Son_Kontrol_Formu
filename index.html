@@ -250,16 +250,17 @@ button.secondary {
 
   <div class="section-title">1. ASANSÖR SİSTEMİ</div>
 
-  <div class="grid">
-    <div class="field">
-      <label>Asansör tahrik tipi</label>
-      <select name="tahrik" required>
-        <option value="">Seçiniz</option>
-        <option value="Elektrikli">Elektrikli</option>
-        <option value="Hidrolik">Hidrolik</option>
-      </select>
-    </div>
+<div class="grid">
+  <div class="field">
+    <label>Asansör Tahrik Tipi</label>
+    <select name="tahrik" required>
+      <option value="">Seçiniz</option>
+      <option value="Makine Dairesiz">Makine Dairesiz</option>
+      <option value="Makine Daireli">Makine Daireli</option>
+      <option value="Hidrolik">Hidrolik</option>
+    </select>
   </div>
+</div>
 
   <div class="section-title">2. ŞANTİYE VE PROJE BİLGİLERİ</div>
 
@@ -275,19 +276,21 @@ button.secondary {
   </div>
 </div>
 
-    <div class="field">
-      <label>Asansör seri numarası</label>
-      <input name="asansorNo">
-    </div>
+   <div class="grid" style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px;">
+  <div class="field">
+    <label>Uygulanan Standart</label>
+    <input name="standart" placeholder="Örn. EN 81-20">
+  </div>
+
+  <div class="field">
+    <label>Asansör Seri Numarası</label>
+    <input name="asansorNo">
+  </div>
+</div>
 
     <div class="field">
       <label>Montör ismi</label>
       <input name="montor">
-    </div>
-
-    <div class="field">
-      <label>Uygulanan standart</label>
-      <input name="standart" placeholder="Örn. EN 81-20">
     </div>
 
 
