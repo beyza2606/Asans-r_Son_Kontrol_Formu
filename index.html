@@ -263,11 +263,17 @@ button.secondary {
 
   <div class="section-title">2. ŞANTİYE VE PROJE BİLGİLERİ</div>
 
-  <div class="grid">
-    <div class="field">
-      <label>Şantiye adresi</label>
-      <input name="adres">
-    </div>
+  <div class="grid" style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px;">
+  <div class="field">
+    <label>İnşaat Firması</label>
+    <input name="insaatFirmasi">
+  </div>
+
+  <div class="field">
+    <label>Şantiye Adresi</label>
+    <input name="adres">
+  </div>
+</div>
 
     <div class="field">
       <label>Asansör seri numarası</label>
@@ -284,10 +290,6 @@ button.secondary {
       <input name="standart" placeholder="Örn. EN 81-20">
     </div>
 
-    <div class="field">
-      <label>Yardımcı montör</label>
-      <input name="yardimci">
-    </div>
 
     <div class="field">
       <label>Bitiş tarihi</label>
