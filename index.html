@@ -248,21 +248,8 @@ button.secondary {
 
 <form id="form">
 
-  <div class="section-title">1. ASANSÖR SİSTEMİ</div>
 
-<div class="grid">
-  <div class="field">
-    <label>Asansör Tahrik Tipi</label>
-    <select name="tahrik" required>
-      <option value="">Seçiniz</option>
-      <option value="Makine Dairesiz">Makine Dairesiz</option>
-      <option value="Makine Daireli">Makine Daireli</option>
-      <option value="Hidrolik">Hidrolik</option>
-    </select>
-  </div>
-</div>
-
-  <div class="section-title">2. ŞANTİYE VE PROJE BİLGİLERİ</div>
+  <div class="section-title">1. ŞANTİYE VE PROJE BİLGİLERİ</div>
 
   <div class="grid" style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px;">
   <div class="field">
@@ -306,7 +293,7 @@ button.secondary {
   </div>
 </div>
 
-  <div class="section-title">3. KAPI VE KAT BİLGİLERİ</div>
+  <div class="section-title">2. KAPI VE KAT BİLGİLERİ</div>
 
   <div class="door-floor-layout">
 
@@ -370,7 +357,7 @@ button.secondary {
 
   </div>
     
-  <div class="section-title">4. MAKİNE VE GÜVENLİK EKİPMANLARI</div>
+  <div class="section-title">3. MAKİNE VE GÜVENLİK EKİPMANLARI</div>
 
 <div class="grid" style="display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:15px;">
 
@@ -448,7 +435,7 @@ button.secondary {
   </div>
 </div>
 
-  <div class="section-title">5. KUMANDA PANOSU VE KART BİLGİLERİ</div>
+  <div class="section-title">4. KUMANDA PANOSU VE KART BİLGİLERİ</div>
 
 <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
   <div class="field">
@@ -467,7 +454,7 @@ button.secondary {
   </div>
 </div>
 
- <div class="section-title">6.ASANSÖRÜN</div>
+ <div class="section-title">5.ASANSÖRÜN</div>
 
 <div class="grid">
   <div class="field">
@@ -521,6 +508,17 @@ button.secondary {
   <label>Ray Ebatı (Kabin ve Karşı Ağırlık)</label>
   <input name="rayEbatiKabinVeKarsiAgirlik">
 </div>
+</div>
+  <div class="grid">
+  <div class="field">
+    <label>Asansör Tahrik Tipi</label>
+    <select name="tahrik" required>
+      <option value="">Seçiniz</option>
+      <option value="Makine Dairesiz">Makine Dairesiz</option>
+      <option value="Makine Daireli">Makine Daireli</option>
+      <option value="Hidrolik">Hidrolik</option>
+    </select>
+  </div>
 </div>
 <div class="actions">
     <button type="button" id="saveBtn">Bilgileri kaydet</button>
