@@ -313,10 +313,14 @@ button.secondary {
     <section class="panel">
       <div class="panel-title">Kapı Bilgileri</div>
 
-      <div class="field">
-        <label>Marka</label>
-        <input name="kapiMarka">
-      </div>
+    <div class="field">
+  <label>Kapı Türü</label>
+  <select name="kapiTuru" required>
+    <option value="">Seçiniz</option>
+    <option value="Yarı Otomatik">Yarı Otomatik</option>
+    <option value="Otomatik">Otomatik</option>
+  </select>
+</div>
 
       <div class="field">
         <label>Toplama yönü</label>
