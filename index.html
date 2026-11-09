@@ -172,9 +172,18 @@ button.secondary {
     border-radius: 0;
   }
 
-  .grid,
-  .door-floor-layout {
+  .grid {
     grid-template-columns: 1fr;
+  }
+
+  .door-floor-layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .panel {
+    padding: 6px;
+    min-width: 0;
   }
 
   header h1 { font-size: 23px; }
