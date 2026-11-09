@@ -351,11 +351,36 @@ button.secondary {
 }
 
 .notes-panel textarea {
-  min-height: 150px;
+  min-height: 65px;
+  height: 65px;
   border: 1px solid #bcc9d8;
   border-radius: 5px;
-  padding: 8px;
+  padding: 5px;
   font-family: Arial, sans-serif;
+  font-size: 9px;
+}
+
+.notes-layout {
+  gap: 8px;
+  padding: 6px;
+}
+
+.notes-title {
+  font-size: 9px;
+  margin-bottom: 5px;
+}
+
+@media print {
+  .notes-panel textarea {
+    height: 65px;
+    min-height: 65px;
+    padding: 3px;
+  }
+
+  .notes-layout {
+    padding: 5px;
+    gap: 5px;
+  }
 }
 
 @media print {
