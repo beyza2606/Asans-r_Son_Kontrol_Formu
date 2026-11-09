@@ -251,6 +251,32 @@ textarea {
   color: #172334 !important;
   border: 1px solid #bcc9d8 !important;
 }
+  /* Kapı türü ve toplama yönü */
+.door-select-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  min-width: 0;
+}
+
+.door-select-row .field {
+  min-width: 0;
+}
+
+.door-select-row select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* PDF düzeni */
+@media print {
+  .door-select-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+}
 </style>
 </head>
 
@@ -424,24 +450,28 @@ textarea {
     <section class="panel">
       <div class="panel-title">Kapı Bilgileri</div>
 
-    <div class="field">
-  <label>Kapı Türü</label>
-  <select name="kapiTuru" required>
-    <option value="">Seçiniz</option>
-    <option value="Yarı Otomatik">Yarı Otomatik</option>
-    <option value="Otomatik">Otomatik</option>
-  </select>
-</div>
+   <div class="door-select-row">
 
-      <div class="field">
-        <label>Toplama yönü</label>
-        <select name="toplamaYonu">
-          <option value="">Seçiniz</option>
-          <option value="Sol">Sol</option>
-          <option value="Sağ">Sağ</option>
-          <option value="Merkez">Merkez</option>
-        </select>
-      </div>
+  <div class="field">
+    <label>Kapı Türü</label>
+    <select name="kapiTuru" required>
+      <option value="">Seçiniz</option>
+      <option value="Yarı Otomatik">Yarı Otomatik</option>
+      <option value="Otomatik">Otomatik</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Toplama yönü</label>
+    <select name="toplamaYonu">
+      <option value="">Seçiniz</option>
+      <option value="Sol">Sol</option>
+      <option value="Sağ">Sağ</option>
+      <option value="Merkez">Merkez</option>
+    </select>
+  </div>
+
+</div>
 
      <div class="field">
   <label>Kat Kapı Ölçüsü</label>
