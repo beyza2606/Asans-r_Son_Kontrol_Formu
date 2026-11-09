@@ -324,6 +324,46 @@ button.secondary {
   .field select option {
     font-size: 11px !important;
   }
+.notes-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  border: 1px solid #d6dee8;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.notes-panel {
+  min-width: 0;
+  padding: 5px;
+}
+
+.notes-panel:first-child {
+  border-right: 1px solid #d6dee8;
+  padding-right: 15px;
+}
+
+.notes-title {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.notes-panel textarea {
+  min-height: 150px;
+  border: 1px solid #bcc9d8;
+  border-radius: 5px;
+  padding: 8px;
+  font-family: Arial, sans-serif;
+}
+
+@media print {
+  .notes-layout {
+    grid-template-columns: 1fr 1fr;
+    break-inside: avoid;
+  }
+}
 </style>
   <div class="section-title">2. KAPI VE KAT BİLGİLERİ</div>
 
@@ -611,7 +651,37 @@ button.secondary {
     PDF oluşturmak için yazdırma ekranında "PDF olarak kaydet"
     seçeneğini kullanın.
   </p>
+<div class="section-title">NOT</div>
 
+<div class="notes-layout">
+
+  <section class="notes-panel">
+    <div class="notes-title">
+      MÜTEAHHİDİN YAPMASI GEREKENLER
+    </div>
+
+    <textarea
+      name="muteahhitNotlari"
+      rows="8"
+      placeholder="Müteahhidin yapması gerekenleri yazınız..."
+      style="font-size:11px; width:100%; resize:vertical;">
+    </textarea>
+  </section>
+
+  <section class="notes-panel">
+    <div class="notes-title">
+      MONTAJ FİRMASININ YAPMASI GEREKENLER
+    </div>
+
+    <textarea
+      name="montajFirmasiNotlari"
+      rows="8"
+      placeholder="Montaj firmasının yapması gerekenleri yazınız..."
+      style="font-size:11px; width:100%; resize:vertical;">
+    </textarea>
+  </section>
+
+</div>
 </form>
 </main>
 
