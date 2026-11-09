@@ -627,17 +627,55 @@ button.secondary {
 </div>
 
 
-  <p id="status" role="status" aria-live="polite"></p>
+ <p id="status" role="status" aria-live="polite"></p>
 
-  <p class="small">
-    Bilgiler bu tarayıcıda otomatik olarak kaydedilmeye çalışılır.
-    Farklı cihaza aktarmak için JSON dosyası indirin.
-    PDF oluşturmak için yazdırma ekranında "PDF olarak kaydet"
-    seçeneğini kullanın.
-  </p>
+<p class="small">
+  Bilgiler bu tarayıcıda otomatik olarak kaydedilmeye çalışılır.
+  Farklı cihaza aktarmak için JSON dosyası indirin.
+  PDF oluşturmak için yazdırma ekranında "PDF olarak kaydet"
+  seçeneğini kullanın.
+</p>
+
+<div class="section-title">NOT</div>
+
+<div class="notes-layout">
+
+  <section class="notes-panel">
+    <div class="notes-title">
+      MÜTEAHHİDİN YAPMASI GEREKENLER
+    </div>
+
+    <textarea
+      name="muteahhitNotlari"
+      rows="8"
+      placeholder="Müteahhidin yapması gerekenleri yazınız..."
+      style="font-size:11px; width:100%; resize:vertical;"></textarea>
+  </section>
+
+  <section class="notes-panel">
+    <div class="notes-title">
+      MONTAJ FİRMASININ YAPMASI GEREKENLER
+    </div>
+
+    <textarea
+      name="montajFirmasiNotlari"
+      rows="8"
+      placeholder="Montaj firmasının yapması gerekenleri yazınız..."
+      style="font-size:11px; width:100%; resize:vertical;"></textarea>
+  </section>
+
+</div>
+
 <div class="actions">
-  <button type="button" id="saveBtn">Bilgileri kaydet</button>
-  <button type="button" id="pdfBtn">PDF oluştur / yazdır</button>
+
+  <button type="button" id="saveBtn">
+    Bilgileri kaydet
+  </button>
+
+  <button type="button" id="pdfBtn">
+    PDF oluştur / yazdır
+  </button>
+
   <button type="button" class="secondary" id="importBtn">
     Kayıtlı dosyayı yükle
   </button>
@@ -651,41 +689,11 @@ button.secondary {
   <button type="button" class="secondary" id="clearBtn">
     Formu temizle
   </button>
-</div>
-  <div class="section-title">NOT</div>
-
-<div class="notes-layout">
-
-  <section class="notes-panel">
-    <div class="notes-title">
-      MÜTEAHHİDİN YAPMASI GEREKENLER
-    </div>
-
-    <textarea
-      name="muteahhitNotlari"
-      rows="8"
-      placeholder="Müteahhidin yapması gerekenleri yazınız..."
-      style="font-size:11px; width:100%; resize:vertical;">
-    </textarea>
-  </section>
-
-  <section class="notes-panel">
-    <div class="notes-title">
-      MONTAJ FİRMASININ YAPMASI GEREKENLER
-    </div>
-
-    <textarea
-      name="montajFirmasiNotlari"
-      rows="8"
-      placeholder="Montaj firmasının yapması gerekenleri yazınız..."
-      style="font-size:11px; width:100%; resize:vertical;">
-    </textarea>
-  </section>
 
 </div>
+
 </form>
 </main>
-
 <script>
 const form = document.getElementById("form");
 const statusText = document.getElementById("status");
