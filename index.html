@@ -985,14 +985,6 @@ document.getElementById("pdfBtn").addEventListener("click", () => {
   window.print();
 });
 
-document.getElementById("exportBtn").addEventListener("click", () => {
-  try {
-    const data = getFormData();
-    const blob = new Blob(
-      [JSON.stringify(data, null, 2)],
-      { type: "application/json;charset=utf-8" }
-    );
-
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
 
