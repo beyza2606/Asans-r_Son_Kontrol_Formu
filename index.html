@@ -790,6 +790,7 @@ textarea {
 </form>
 </main>
 <script>
+
 const form = document.getElementById("form");
 const statusText = document.getElementById("status");
 const storageKey = "eytaAsansorFormV2";
@@ -823,17 +824,11 @@ function saveLocal(showMessage = true) {
     localStorage.setItem(storageKey, JSON.stringify(getFormData()));
 
     if (showMessage) {
-      showStatus("Bilgiler bu tarayıcıya kaydedildi.");
+      showStatus("Bilgiler kaydedildi.");
     }
-
     return true;
   } catch (error) {
-    if (showMessage) {
-      showStatus(
-        "Tarayıcıya kaydedilemedi. JSON dosyasına kaydedebilirsiniz."
-      );
-    }
-
+    showStatus("Kayıt yapılamadı.");
     return false;
   }
 }
@@ -863,7 +858,6 @@ function createFloor(label, name, value = "", removable = true) {
     removeBtn.type = "button";
     removeBtn.className = "remove-floor";
     removeBtn.textContent = "Sil";
-    removeBtn.setAttribute("aria-label", label + " satırını sil");
 
     removeBtn.addEventListener("click", () => {
       row.remove();
@@ -880,91 +874,74 @@ function createFloor(label, name, value = "", removable = true) {
 function resetFloorRows() {
   floorList.replaceChildren();
 
-  for (const floor of defaultFloors) {
+  defaultFloors.forEach(floor => {
     createFloor(floor.label, floor.name, "", false);
-  }
+  });
 }
 
 function getNextFloorNumber() {
   let max = 4;
 
-  for (const input of floorList.querySelectorAll("input[name]")) {
+  floorList.querySelectorAll("input[name]").forEach(input => {
     const match = input.name.match(/^kat_(\d+)$/);
-
-    if (match) {
-      max = Math.max(max, Number(match[1]));
-    }
-  }
+    if (match) max = Math.max(max, Number(match[1]));
+  });
 
   return max + 1;
 }
 
 function fillForm(data) {
   if (!data || typeof data !== "object" || Array.isArray(data)) {
-    throw new Error("Geçersiz kayıt");
-  }
-
-  if (
-    Object.values(data).some(value => typeof value !== "string")
-  ) {
-    throw new Error("Kayıt alanları metin olmalıdır.");
+    throw new Error("Geçersiz kayıt.");
   }
 
   form.reset();
   resetFloorRows();
 
   for (const [name, value] of Object.entries(data)) {
+    if (typeof value !== "string") continue;
     if (/^kat_\d+$/.test(name)) continue;
 
     const field = form.elements.namedItem(name);
-
     if (field && "value" in field) {
       field.value = value;
     }
   }
 
-  for (const floor of defaultFloors) {
+  defaultFloors.forEach(floor => {
     const input = form.elements.namedItem(floor.name);
-
     if (input && typeof data[floor.name] === "string") {
       input.value = data[floor.name];
     }
-  }
+  });
 
-  const extraFloors = Object.keys(data)
+  Object.keys(data)
     .map(name => {
       const match = name.match(/^kat_(\d+)$/);
-
-      return match
-        ? { name, number: Number(match[1]), value: data[name] }
-        : null;
+      return match ? {
+        name,
+        number: Number(match[1]),
+        value: data[name]
+      } : null;
     })
     .filter(item => item && item.number > 4)
-    .sort((a, b) => a.number - b.number);
-
-  for (const floor of extraFloors) {
-    createFloor(
-      floor.number + ". Kat",
-      floor.name,
-      floor.value,
-      true
-    );
-  }
+    .sort((a, b) => a.number - b.number)
+    .forEach(floor => {
+      createFloor(
+        floor.number + ". Kat",
+        floor.name,
+        floor.value,
+        true
+      );
+    });
 }
 
-document.getElementById("addFloorBtn").addEventListener("click", () => {
-  const number = getNextFloorNumber();
-
-  createFloor(number + ". Kat", "kat_" + number);
-  saveLocal(false);
-  showStatus(number + ". Kat eklendi.");
-});
-
+// Başlangıç katları
 resetFloorRows();
 
+// Önceki kayıtları yükle
 try {
   const saved = localStorage.getItem(storageKey);
-
   if (saved) {
     fillForm(JSON.parse(saved));
     showStatus("Önceki kayıt yüklendi.");
@@ -973,69 +950,52 @@ try {
   showStatus("Önceki kayıt okunamadı.");
 }
 
+// Otomatik kayıt
 form.addEventListener("input", () => saveLocal(false));
 form.addEventListener("change", () => saveLocal(false));
 
+// Bilgileri kaydet
 document.getElementById("saveBtn").addEventListener("click", () => {
   saveLocal(true);
 });
 
+// PDF oluştur
 document.getElementById("pdfBtn").addEventListener("click", () => {
   window.print();
 });
 
-document.getElementById("exportBtn").addEventListener("click", () => {
-  try {
-    const data = getFormData();
-    const blob = new Blob(
-      [JSON.stringify(data, null, 2)],
-      { type: "application/json;charset=utf-8" }
-    );
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = "eyta-asansor-kayit.json";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-    showStatus("JSON kayıt dosyası indirildi.");
-  } catch (error) {
-    showStatus("Dosya oluşturulamadı.");
-  }
+// Kat ekle
+document.getElementById("addFloorBtn").addEventListener("click", () => {
+  const number = getNextFloorNumber();
+  createFloor(number + ". Kat", "kat_" + number);
+  saveLocal(false);
+  showStatus(number + ". Kat eklendi.");
 });
 
+// JSON dosyası yükle
 document.getElementById("importBtn").addEventListener("click", () => {
   importFile.click();
 });
 
 importFile.addEventListener("change", async event => {
   const file = event.target.files[0];
-
   if (!file) return;
 
   try {
     const data = JSON.parse(await file.text());
-
     fillForm(data);
     saveLocal(false);
-
-    showStatus("Dosyadaki bilgiler forma yüklendi.");
+    showStatus("Dosyadaki bilgiler yüklendi.");
   } catch (error) {
-    showStatus(
-      "Dosya okunamadı. Geçerli bir EYTA JSON dosyası seçin."
-    );
+    showStatus("Dosya okunamadı veya geçersiz.");
   }
 
   event.target.value = "";
 });
 
+// Formu temizle
 document.getElementById("clearBtn").addEventListener("click", () => {
-  if (!confirm("Formdaki tüm bilgileri temizlemek istiyor musunuz?")) {
+  if (!confirm("Formdaki bütün bilgileri silmek istiyor musunuz?")) {
     return;
   }
 
@@ -1045,11 +1005,13 @@ document.getElementById("clearBtn").addEventListener("click", () => {
   try {
     localStorage.removeItem(storageKey);
   } catch (error) {
-    // Form, tarayıcı kaydı silinemese bile temizlenir.
+    showStatus("Tarayıcı kaydı silinemedi.");
+    return;
   }
 
-  showStatus("Form temizlendi.");
+  showStatus("Form başarıyla temizlendi.");
 });
+
 </script>
 
 </body>
