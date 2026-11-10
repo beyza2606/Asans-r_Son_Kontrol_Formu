@@ -297,65 +297,72 @@ textarea {
 
 <form id="form">
 
-<div class="section-title" style="font-size:12px; font-weight:bold;">
+
+<div class="section-title" style="font-size:12px; font-weight:bold; margin-bottom:10px;">
   1. ŞANTİYE VE PROJE BİLGİLERİ
 </div>
 
 <div class="grid" style="
   display:grid;
   grid-template-columns: 1fr 1.7fr 1fr 1fr;
-  gap:8px;
+  gap:10px;
   align-items:start;
+  margin-bottom:12px;
 ">
 
-<div class="field" style="min-width:0;">
-  <label style="font-size:10px; min-height:24px;">İnşaat Firması</label>
-  <input name="insaatFirmasi"
-         style="font-size:10px; font-weight:bold; width:100%; box-sizing:border-box;">
-</div>
-
-<div class="field" style="min-width:0;">
-  <label style="font-size:10px; min-height:24px;">Şantiye Adresi</label>
-  <input name="adres"
-         style="font-size:10px; font-weight:bold; width:100%; box-sizing:border-box;">
-</div>
-
-<div class="field" style="min-width:0;">
-  <label style="font-size:9px; min-height:24px;">Uygulanan Standart</label>
-  <input name="standart"
-         placeholder="EN 81-20"
-         style="font-size:10px; font-weight:bold; width:100%; min-width:0; box-sizing:border-box;">
-</div>
-
-<div class="field" style="min-width:0;">
-  <label style="font-size:9px; min-height:24px;">Asansör Seri No</label>
-  <input name="asansorNo"
-         style="font-size:10px; font-weight:bold; width:100%; min-width:0; box-sizing:border-box;">
-</div>
-
-</div>
-</div>
-
-<div class="grid" style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:15px; font-size:11px;">
-
-  <div class="field">
-    <label style="font-size:11px;">Montör ismi</label>
-    <input name="montor" style="font-size:11px; width:100%;">
+  <div class="field" style="min-width:0;">
+    <label style="font-size:10px; min-height:20px; margin-bottom:5px;">İnşaat Firması</label>
+    <input name="insaatFirmasi"
+           style="font-size:10px; font-weight:bold; width:100%; box-sizing:border-box;">
   </div>
 
-<div class="field" style="min-width:0;">
-  <label style="font-size:11px;">Bitiş Tarihi</label>
-  <input type="date" name="bitis"
-         style="font-size:10px; width:100%; min-width:0; max-width:100%; box-sizing:border-box; padding:7px 2px;">
+  <div class="field" style="min-width:0;">
+    <label style="font-size:10px; min-height:20px; margin-bottom:5px;">Şantiye Adresi</label>
+    <input name="adres"
+           style="font-size:10px; font-weight:bold; width:100%; box-sizing:border-box;">
+  </div>
+
+  <div class="field" style="min-width:0;">
+    <label style="font-size:9px; min-height:20px; margin-bottom:5px;">Uygulanan Standart</label>
+    <input name="standart"
+           placeholder="EN 81-20"
+           style="font-size:10px; font-weight:bold; width:100%; min-width:0; box-sizing:border-box;">
+  </div>
+
+  <div class="field" style="min-width:0;">
+    <label style="font-size:9px; min-height:20px; margin-bottom:5px;">Asansör Seri No</label>
+    <input name="asansorNo"
+           style="font-size:10px; font-weight:bold; width:100%; min-width:0; box-sizing:border-box;">
+  </div>
+
 </div>
 
-<div class="field" style="min-width:0;">
-  <label style="font-size:11px;">Başlangıç Tarihi</label>
-  <input type="date" name="baslangic"
-         style="font-size:10px; width:100%; min-width:0; max-width:100%; box-sizing:border-box; padding:7px 2px;">
-</div>
+<div class="grid" style="
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  align-items:start;
+  margin-top:0;
+  font-size:11px;
+">
 
-</div>
+  <div class="field" style="min-width:0;">
+    <label style="font-size:11px; min-height:20px; margin-bottom:5px;">Montör İsmi</label>
+    <input name="montor"
+           style="font-size:11px; font-weight:bold; width:100%; box-sizing:border-box;">
+  </div>
+
+  <div class="field" style="min-width:0;">
+    <label style="font-size:11px; min-height:20px; margin-bottom:5px;">Bitiş Tarihi</label>
+    <input type="date" name="bitis"
+           style="font-size:10px; font-weight:bold; width:100%; min-width:0; max-width:100%; box-sizing:border-box; padding:7px 2px;">
+  </div>
+
+  <div class="field" style="min-width:0;">
+    <label style="font-size:11px; min-height:20px; margin-bottom:5px;">Başlangıç Tarihi</label>
+    <input type="date" name="baslangic"
+           style="font-size:10px; font-weight:bold; width:100%; min-width:0; max-width:100%; box-sizing:border-box; padding:7px 2px;">
+  </div>
 </div>
 <style>
   .section-title,
